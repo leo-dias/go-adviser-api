@@ -25,7 +25,7 @@ app.use((req, res) => {
     res.status(404).send({ error: `Resource ${req.url} not found` });
 });
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
 // Start Server
 app.listen(PORT);
