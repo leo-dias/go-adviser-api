@@ -1,0 +1,28 @@
+{
+  "name": "go-adviser-api",
+  "version": "0.0.1",
+  "description": "RESTful API to GoAdviser App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "GoAdviser",
+    "RESTful",
+    "MongoDB",
+    "Mongoose",
+    "Express",
+    "JWT",
+    "Atomic Design"
+  ],
+  "author": "Leonardo Dias de Oliveira",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.0-rc1",
+    "mongoose-query": "^0.5.1",
+    "node-restful": "^0.2.6",
+    "password-hash": "^1.2.2"
+  }
+}
