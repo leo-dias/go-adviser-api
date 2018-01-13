@@ -1,6 +1,9 @@
 'use strict';
 
 const Adviser = require('../models/adviser');
+const callback = require('./callback-controller');
+const fields = 'is_online name email price_consulting_video price_consulting_voice price_consulting_text resume';
+const ObjectId = require('mongodb').ObjectID;
 
 const controller = {
     filter: (req, res) => {
@@ -10,14 +13,30 @@ const controller = {
 
         if (query.email) query.email = new RegExp(req.query.email, 'i');
 
-        Adviser.find(query, (err, result) => {
-            if (err) return res.status(400).send(err);
-            
-            if(result.length === 0) return res.status(404).send();
+        Adviser.find(query, fields, (err, result) => callback(err, res, result)).populate('resume.skills');
+    },
 
-            return res.send(result);
-        });
+    findByPriceVideo: (req, res) => {
+        const price_init = req.query.init;
+        const price_end = req.query.end;
+
+        Adviser.find({}, fields)        
+            .where('price_consulting_video')
+            .gte(price_init).lte(price_end)
+            .populate('resume.skills')
+            .exec((err, result) => callback(err, res, result));
+    },
+
+    findBySkills: (req, res) => {
+        let skillsParam = JSON.parse("[" + req.headers.skills + "]");
+        let skills = [];
+        for (let i = 0; i < skillsParam.length; i++) {
+            skills.push(new ObjectId(skillsParam[i]));
+        }
+
+        Adviser.find({ "resume.skills": { "$in": skills } }, fields, (err, result) => callback(err, res, result))
+        .populate('resume.skills');
     }
-}; 
+};
 
 module.exports = controller;

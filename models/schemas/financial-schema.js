@@ -10,4 +10,6 @@ const financialSchema = new mongoose.Schema({
     amount_receive
 });
 
+financialSchema.index({ _id: 1 }, { unique: true });
+
 module.exports = financialSchema;

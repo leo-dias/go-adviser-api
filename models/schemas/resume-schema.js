@@ -9,4 +9,6 @@ const resumeSchema = new mongoose.Schema({
     skills: require('./fields/field-skills')
 });
 
+resumeSchema.index({ _id: 1 }, { unique: true });
+
 module.exports = resumeSchema;
