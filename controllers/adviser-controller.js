@@ -20,6 +20,11 @@ const controller = {
         const price_init = req.query.init;
         const price_end = req.query.end;
 
+        if (price_init === undefined || price_end === undefined) {
+            res.status(400).send({message: 'The parameters [init] and [end] are required.'});
+            return;
+        }
+
         Adviser.find({}, fields)        
             .where('price_consulting_video')
             .gte(price_init).lte(price_end)
@@ -28,13 +33,18 @@ const controller = {
     },
 
     findBySkills: (req, res) => {
-        let skillsParam = JSON.parse("[" + req.headers.skills + "]");
+        if (!req.headers.skills) {
+            res.status(400).send({message: 'No variable skills was found in header request.'});
+            return;
+        }
+
+        let skillsParam = JSON.parse('[' + req.headers.skills + ']');
         let skills = [];
         for (let i = 0; i < skillsParam.length; i++) {
             skills.push(new ObjectId(skillsParam[i]));
         }
 
-        Adviser.find({ "resume.skills": { "$in": skills } }, fields, (err, result) => callback(err, res, result))
+        Adviser.find({ 'resume.skills': { '$in': skills } }, fields, (err, result) => callback(err, res, result))
         .populate('resume.skills');
     }
 };
