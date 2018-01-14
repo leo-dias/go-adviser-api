@@ -20,6 +20,7 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "jsonwebtoken": "^7.4.3",
     "mongoose": "^5.0.0-rc1",
     "mongoose-query": "^0.5.1",
     "node-restful": "^0.2.6",
