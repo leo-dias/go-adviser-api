@@ -1,3 +1,3 @@
-'use strict';
+'use strict'
 
-module.exports = { type: Boolean, default: false };
+module.exports = { type: Boolean, default: false }

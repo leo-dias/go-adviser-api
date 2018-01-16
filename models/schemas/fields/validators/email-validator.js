@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
 const validator = {
-    validate: (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v),
-    message: 'E-mail {VALUE} is invalid.'
-};
+  validate: ( v ) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test( v ),
+  message: 'E-mail {VALUE} is invalid.'
+}
 
-module.exports = validator;
+module.exports = validator

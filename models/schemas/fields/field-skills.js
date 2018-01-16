@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-const mongoose = require('mongoose');
+const mongoose = require( 'mongoose' )
 
-const Field = [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Skill'
+const Field = [ {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'Skill'
 }]
 
-module.exports = Field;
+module.exports = Field

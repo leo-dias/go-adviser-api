@@ -1,3 +1,3 @@
-'use strict';
+'use strict'
 
-module.exports = { data: Buffer, contentType: String };
+module.exports = { data: Buffer, contentType: String }

@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const restful = require('node-restful');
-const adviserSchema = require('./schemas/adviser-shema');
+const restful = require( 'node-restful' )
+const adviserSchema = require( './schemas/adviser-shema' )
 
-module.exports = restful.model('Adviser', adviserSchema);
+module.exports = restful.model( 'Adviser', adviserSchema )

@@ -1,9 +1,15 @@
-'use strict';
+'use strict'
 
-module.exports = (err, res, result) => {
-    if (err) return res.status(400).send(err);
-
-    if (result.length === 0) return res.status(404).send();
-
-    return res.send(result);
+const Callback = {
+  success: {
+    status: ( httpstatus ) => ( result, res ) => {
+      ( result.length === 0 )
+        ? res.status( 404 ).send()
+        : res.status( httpstatus ).send( result )
+    }
+  }
+  ,
+  error: ( err, res ) => res.status( 400 ).send( err )
 }
+
+module.exports = Callback

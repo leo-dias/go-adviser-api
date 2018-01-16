@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
 const Field = {
-    type: String, 
-    set: require('./sets/encrypt'),
-    required: true
+  type: String,
+  set: require( './sets/encrypt' ),
+  required: true
 }
 
-module.exports = Field;
+module.exports = Field

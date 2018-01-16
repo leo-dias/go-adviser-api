@@ -1,3 +1,3 @@
-'use strict';
+'use strict'
 
-module.exports = { type: Date, default: Date.now };
+module.exports = { type: Date, default: Date.now }
