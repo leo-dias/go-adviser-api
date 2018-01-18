@@ -3,12 +3,6 @@
 const callback = require( './callback-controller' )
 const adviserRepository = require( '../repositoires/adviser-repository' )
 const ObjectId = require( 'mongodb' ).ObjectID
-const Message = require( '../models/message' );
-
-const sendMessage = ( res, msg ) => {
-  Message.message = msg
-  res.status( 400 ).send( Message )
-}
 
 const controller = {
   create: ( req, res ) => {
@@ -35,7 +29,7 @@ const controller = {
   ,
   findByPriceVideo: ( req, res ) => {
     if ( req.query.init === undefined || req.query.end === undefined ) {
-      return sendMessage(res, 'The parameters [init] and [end] are required.')
+      return callback.status( 400 ).message( 'The parameters [init] and [end] are required.', res )
     }
 
     adviserRepository
@@ -46,7 +40,7 @@ const controller = {
   ,
   findBySkills: ( req, res ) => {
     if ( !req.headers.skills ) {
-      return sendMessage(res, 'No variable skills was found in header request.')
+      return callback.status( 400 ).message( 'No variable skills was found in header request.', res )
     }
 
     const skillsParam = JSON.parse( `[ ${req.headers.skills} ]` )

@@ -3,14 +3,14 @@
 const Adviser = require( '../models/adviser' )
 const authService = require( '../services/auth-service' )
 const adviserRepository = require( '../repositoires/adviser-repository' )
-const Message = require( '../models/message' )
-const authModel = require( '../models/auth' )
 
-const populateAuthModel = ( model, roles ) => {
+const getAuthModel = ( model, roles ) => {
+  const authModel = require( '../models/auth' )
   authModel.id = model._id
   authModel.email = model.email
   authModel.name = model.name
   authModel.roles = roles
+  return authModel;
 }
 
 const Auth = {
@@ -19,12 +19,11 @@ const Auth = {
       const adviser = await adviserRepository.login( req.body.email, req.body.password )
 
       if ( !adviser ) {
-        Message.message = 'Email or password invalid';
-        res.status( 404 ).send( Message )
+        callback.status( 404 ).message( 'Email or password invalid', res )
         return
       }
 
-      populateAuthModel( adviser, 'adviser' )
+     const authModel = getAuthModel( adviser, 'adviser' )
 
       const token = await authService.generateToken( authModel )
 
@@ -36,8 +35,7 @@ const Auth = {
       } )
     } catch ( e ) {
       console.log( e )
-      Message.message = e
-      res.status( 500 ).send( Message )
+      callback.status( 500 ).message( 'Error ' + e, res )
     }
   },
 
@@ -50,12 +48,11 @@ const Auth = {
       const adviser = await adviserRepository.findById( data.id )
 
       if ( !adviser ) {
-        Message.message = 'Not found anyone with this credentials'
-        res.status( 404 ).send( Message )
+        callback.status( 404 ).message( 'Not found anyone with this credentials', res )
         return
       }
 
-      populateAuthModel( adviser, 'adviser' )
+      const authModel = getAuthModel( adviser, 'adviser' )
 
       const tokenData = await authService.generateToken( authModel )
 
@@ -66,8 +63,8 @@ const Auth = {
         data: authModel
       } )
     } catch ( e ) {
-      Message.message = 'Erro refresh token'
-      res.status( 500 ).send( Message )
+      callback.status( 500 ).message( 'Error refresh token' + e, res )
+      return
     }
   }
 }
