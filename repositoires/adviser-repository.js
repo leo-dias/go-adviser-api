@@ -5,29 +5,17 @@ const passwordHash = require( 'password-hash' )
 const fields = 'is_online name email price_consulting_video price_consulting_voice price_consulting_text resume'
 
 const Repository = {
-  create: ( data ) => {
-    return Adviser.create( data )
-  }
+  create: ( data ) => Adviser.create( data )
   ,
-  update: ( query, mod ) => {
-    return Adviser.update( query, mod )
-  }
+  update: ( query, mod ) => Adviser.update( query, mod )
   ,
   login: async ( email, password ) => {
     const query = { email }
     const adviser = await Adviser.findOne( query, ( err, result ) => result )
-
-    const passwordVerified = passwordHash.verify( password, adviser.password )
-    if ( !passwordVerified ) return null
-
-    return adviser
+    return passwordHash.verify( password, adviser.password ) ? adviser : null
   }
   ,
-  findById: async ( _id ) => {
-    const query = { _id }
-    const adviser = await Adviser.findOne( query, ( err, result ) => result )
-    return adviser
-  }
+  findById: async ( _id ) => await Adviser.findOne( { _id }, ( err, result ) => result )
   ,
   filter: ( query ) => {
     if ( query.name ) query.name = new RegExp( query.name, 'i' )
@@ -45,9 +33,7 @@ const Repository = {
     return Adviser.find( query, fields ).populate( 'resume.skills' )
   }
   ,
-  findBySkills: ( skills ) => {
-    return Adviser.find( { "resume.skills": { "$in": skills } }, fields ).populate( 'resume.skills' )
-  }
+  findBySkills: ( skills ) => Adviser.find( { "resume.skills": { "$in": skills } }, fields ).populate( 'resume.skills' )
 }
 
 module.exports = Repository

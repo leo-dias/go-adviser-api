@@ -3,6 +3,9 @@
 const Adviser = require( '../models/adviser' )
 const authService = require( '../services/auth-service' )
 const adviserRepository = require( '../repositoires/adviser-repository' )
+const callback = require( '../controllers/callback-controller' );
+
+const NOT = ( x ) => !x
 
 const getAuthModel = ( model, roles ) => {
   const authModel = require( '../models/auth' )
@@ -18,12 +21,11 @@ const Auth = {
     try {
       const adviser = await adviserRepository.login( req.body.email, req.body.password )
 
-      if ( !adviser ) {
-        callback.status( 404 ).message( 'Email or password invalid', res )
-        return
+      if ( NOT( adviser ) ) {
+        return callback.status( 404 ).message( 'Email or password invalid', res )
       }
 
-     const authModel = getAuthModel( adviser, 'adviser' )
+      const authModel = getAuthModel( adviser, 'adviser' )
 
       const token = await authService.generateToken( authModel )
 
@@ -35,7 +37,7 @@ const Auth = {
       } )
     } catch ( e ) {
       console.log( e )
-      callback.status( 500 ).message( 'Error ' + e, res )
+      return callback.status( 500 ).message( 'Error ' + e, res )
     }
   },
 
@@ -47,9 +49,8 @@ const Auth = {
 
       const adviser = await adviserRepository.findById( data.id )
 
-      if ( !adviser ) {
-        callback.status( 404 ).message( 'Not found anyone with this credentials', res )
-        return
+      if ( NOT( adviser ) ) {
+        return callback.status( 404 ).message( 'Not found anyone with this credentials', res )
       }
 
       const authModel = getAuthModel( adviser, 'adviser' )
@@ -63,8 +64,7 @@ const Auth = {
         data: authModel
       } )
     } catch ( e ) {
-      callback.status( 500 ).message( 'Error refresh token' + e, res )
-      return
+      return callback.status( 500 ).message( 'Error refresh token' + e, res )
     }
   }
 }
