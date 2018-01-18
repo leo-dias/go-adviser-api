@@ -9,13 +9,13 @@ const authService = require( '../services/auth-service' )
 const root = '/advisers'
 
 //Routes
-// Adviser.methods(['get', 'put', 'delete'])
+// Adviser.methods(['get', 'delete'])
 
 router.post( root, authService.isAdviser, adviserController.create )
 router.put( `${root}/:id`, authService.isAdviser, adviserController.update )
 router.get( `${root}/filter`, authService.authorize, adviserController.filter )
 router.get( `${root}/price-video`, authService.authorize, adviserController.findByPriceVideo )
-router.get( `${root}/skills`, authService.authorize, adviserController.findBySkills )
+router.get( `${root}/skills`,  adviserController.findBySkills )
 
 Adviser.register( router, root )
 
