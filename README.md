@@ -6,5 +6,6 @@
 * MongoDB
 * Mongoose
 * Express
+* OAuth2
 
 ## Using Atomic Design and Functional Programming
