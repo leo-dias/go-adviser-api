@@ -13,7 +13,7 @@ const callbackVerify = ( error, decoded, res ) =>
     ? callback.status( 401 ).message( 'Invalid Token', res )
     : next()
 
-const callbackVerifyAdviser = ( error, decoded, res ) =>
+const callbackVerifyAdviser = ( error, decoded, res, next ) =>
   ( error )
     ? callback.status( 401 ).message( 'Invalid Token', res )
     : hasAdviserRole( decoded.roles )
@@ -41,7 +41,7 @@ const AuthService = {
 
     NOT( token )
       ? callback.status( 403 ).message( 'Access Denied', res )
-      : jwt.verify( token, configGeneral.SALT_KEY, ( error, decoded ) => callbackVerifyAdviser( error, decoded, res ) )
+      : jwt.verify( token, configGeneral.SALT_KEY, ( error, decoded ) => callbackVerifyAdviser( error, decoded, res, next ) )
   }
 }
 
